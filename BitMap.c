@@ -15,8 +15,8 @@ void BitMapInit(BitMap* bitMap, int numBits, uint8_t* buffer){
 }
 
 // set the byte in the bitmap
-void setBit(BitMap* bitmap, int index, int state) {
-	if (index < 0 || index >= bitmap->numBits) {
+void BitMapSetBit(BitMap* bitmap, int index, int state) {
+	if (index >= bitmap->numBits || state < 0 || state > 1 || index < 0) {
 		printf("Index out of range \n");
 		return;
 	}
@@ -30,7 +30,7 @@ void setBit(BitMap* bitmap, int index, int state) {
 }
 
 //return bit in position i
-int getBit(BitMap* BitMap, int i) {
+int BitMapGetBit(BitMap* BitMap, int i) {
 	if (BitMap == NULL || BitMap->numBits <= i) 
 	    return 0;
 	int byteIndex = i / 8;
@@ -43,19 +43,3 @@ int getBytes(int numBits) {
 	return numBits / 8 + (numBits % 8) != 0;
 }
 
-int main() {
-	int numBits = BITMAP_SIZE_IN_BYTES * 8;
-	uint8_t* buffer = (uint8_t*) malloc(BITMAP_SIZE_IN_BYTES);
-	if (buffer == NULL) {
-		printf("Allocation memory failed (malloc)\n");
-		return 1;
-	}
-    BitMap* bitMap = malloc(sizeof(BitMap));
-    BitMapInit(bitMap, numBits, buffer);
-	setBit(bitMap, 1, 1);
-    int bitValue = getBit(bitMap, 1);
-    printf("Bit value at index 1: %d\n", bitValue);
-    bitValue = getBit(bitMap, 2);
-    printf("Bit value at index 2: %d\n", bitValue);
-	return 0;
-}

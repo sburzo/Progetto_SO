@@ -2,19 +2,16 @@ CC = gcc
 CFLAGS = -Wall -g
 LDFLAGS = -lm -lc
 
-# Nome dell'eseguibile
 EXECUTABLE = test
 
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): BitMap.o
+$(EXECUTABLE): BuddyAllocator.o BitMap.o main.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 
-BitMap.o: BitMap.h BitMap.c
-	$(CC) $(CFLAGS) -c -o $@ BitMap.c
-
-
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f BitMap.o $(EXECUTABLE)
+	rm -f BuddyAllocator.o BitMap.o main.o $(EXECUTABLE)
