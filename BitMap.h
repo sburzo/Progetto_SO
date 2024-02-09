@@ -14,3 +14,5 @@ void BitMapInit(BitMap* BitMap, int numBits, uint8_t* buffer);
 void BitMapSetBit(BitMap* BitMap, int i, int stato);
 int BitMapGetBit(BitMap* BitMap, int i);
 int getBytes(int bits);
+void BitMapPrint(BitMap* BitMap);
+void BitMapDestroy(BitMap* BitMap);

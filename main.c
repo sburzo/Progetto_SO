@@ -10,13 +10,13 @@
 #define PAGE_SIZE 4096
 #define BITMAP_BUFFER_SIZE (1 << (BUDDY_LEVELS+1))
 #define BUDDY_THRESHOLD (PAGE_SIZE / 4)
-#define BITMAP_SIZE_IN_BYTES 256
+#define BITMAP_SIZE_IN_BYTES 32
 
 
 char memory[MEMORY_SIZE];
 uint8_t bitmapBuffer[BITMAP_BUFFER_SIZE];
 
-void BitMapProva()
+void BitMapTest()
 {
 	int numBits = BITMAP_SIZE_IN_BYTES * 8;
     	uint8_t* buffer = (uint8_t*) malloc(BITMAP_SIZE_IN_BYTES);
@@ -26,16 +26,19 @@ void BitMapProva()
     	}
         BitMap* bitMap = malloc(sizeof(BitMap));
         BitMapInit(bitMap, numBits, buffer);
+        BitMapPrint(bitMap);
     	BitMapSetBit(bitMap, 1, 1);
         int bitValue = BitMapGetBit(bitMap, 1);
         printf("Bit value at index 1: %d\n", bitValue);
         bitValue = BitMapGetBit(bitMap, 2);
         printf("Bit value at index 2: %d\n", bitValue);
-        printf("BitMapProva finish!\n");
+        printf("BitMapTest finish!\n");
+        BitMapPrint(bitMap);
+        BitMapDestroy(bitMap);
     	return;
 }
 
-void BuddyAllocatorProva()
+void BuddyAllocatorTest()
 {
 	BuddyAllocator *BuddyAlloc = malloc(sizeof(BuddyAllocator));
     BuddyAllocatorInit(BuddyAlloc, MIN_BUCKET_SIZE,  BUDDY_LEVELS, memory, bitmapBuffer);
@@ -61,7 +64,7 @@ void BuddyAllocatorProva()
 
 	printf("\n\n");
 	int x = *ptr + *ptr2;
-	printf("%d somma", x);
+	printf("%d sum", x);
 
 	printf("\n\n");
 
@@ -77,7 +80,7 @@ void BuddyAllocatorProva()
 
 	printf("\n\n");
 	x = x + *ptr3;
-	printf("%d somma", x);
+	printf("%d sum", x);
 
 	printf("\n\n");
 
@@ -105,8 +108,8 @@ void BuddyAllocatorProva()
 
 int main()
 {
-	//BitMapProva();
-	BuddyAllocatorProva();
+	BitMapTest();
+	//BuddyAllocatorTest();
 	return 0;
 
 }

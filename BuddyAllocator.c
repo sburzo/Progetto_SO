@@ -42,7 +42,7 @@ void BuddyAllocatorInit(BuddyAllocator* BuddyAlloc, int minSize, int numLevels, 
     BuddyAlloc -> minSize = minSize;
     BuddyAlloc -> mem = mem;
 
-    //Init bitmap
+
     int numBits = (1 << numLevels) - 1; //number of bits needed to represent a  binary tree with numLevels
     BitMapInit(&BuddyAlloc->bitmap, numBits, buf);
 
@@ -64,7 +64,7 @@ int BuddyAllocatorFreeBlockAtLevel(BuddyAllocator * BuddyAlloc, int level) {
             return i;
         }
     }
-    return -1; //no free block
+    return -1;
 }
 
 int BuddyAllocatorFindMinLevel(BuddyAllocator * BuddyAlloc, int size) {

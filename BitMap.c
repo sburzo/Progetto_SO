@@ -6,7 +6,7 @@
 
 
 
-// Initialize bitmap
+
 void BitMapInit(BitMap* bitMap, int numBits, uint8_t* buffer){
   bitMap->buffer=buffer;
   bitMap->numBits=numBits;
@@ -14,7 +14,7 @@ void BitMapInit(BitMap* bitMap, int numBits, uint8_t* buffer){
   
 }
 
-// set the byte in the bitmap
+
 void BitMapSetBit(BitMap* bitmap, int index, int state) {
 	if (index >= bitmap->numBits || state < 0 || state > 1 || index < 0) {
 		printf("Index out of range \n");
@@ -29,7 +29,7 @@ void BitMapSetBit(BitMap* bitmap, int index, int state) {
 	}
 }
 
-//return bit in position i
+
 int BitMapGetBit(BitMap* BitMap, int i) {
 	if (BitMap == NULL || BitMap->numBits <= i) 
 	    return 0;
@@ -41,5 +41,25 @@ int BitMapGetBit(BitMap* BitMap, int i) {
 
 int getBytes(int numBits) {
 	return numBits / 8 + (numBits % 8) != 0;
+}
+
+void BitMapPrint(BitMap* BitMap) {
+	if (!BitMap || !BitMap->buffer) {
+		printf("BitMap not valid or not initialized\n");
+		return;
+	}
+	printf("Bitmap : ");
+	for (int i = 0; i < BitMap->numBits; i++) {
+		if (i % 8 == 0 && i != 0) {
+			printf(" ");
+		}
+		printf("%d", BitMapGetBit(BitMap, i));
+	}
+	printf("\n");
+}
+
+void BitMapDestroy(BitMap* BitMap) {
+	if (BitMap == NULL) return;
+	free(BitMap);
 }
 
