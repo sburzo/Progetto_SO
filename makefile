@@ -6,7 +6,7 @@ EXECUTABLE = test
 
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): BuddyAllocator.o BitMap.o main.o
+$(EXECUTABLE): BuddyAllocator.o BitMap.o PseudoMalloc.o main.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 
@@ -14,4 +14,4 @@ $(EXECUTABLE): BuddyAllocator.o BitMap.o main.o
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f BuddyAllocator.o BitMap.o main.o $(EXECUTABLE)
+	rm -f BuddyAllocator.o BitMap.o PseudoMalloc.o main.o $(EXECUTABLE)

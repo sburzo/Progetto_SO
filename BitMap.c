@@ -17,7 +17,7 @@ void BitMapInit(BitMap* bitMap, int numBits, uint8_t* buffer){
 
 void BitMapSetBit(BitMap* bitmap, int index, int state) {
 	if (index >= bitmap->numBits || state < 0 || state > 1 || index < 0) {
-		printf("Index out of range \n");
+		printf("Indice fuori dal range \n");
 		return;
 	}
 	int byte_num = index / 8;
@@ -45,7 +45,7 @@ int getBytes(int numBits) {
 
 void BitMapPrint(BitMap* BitMap) {
 	if (!BitMap || !BitMap->buffer) {
-		printf("BitMap not valid or not initialized\n");
+		printf("BitMap non valida o non inizializzata\n");
 		return;
 	}
 	printf("Bitmap : ");

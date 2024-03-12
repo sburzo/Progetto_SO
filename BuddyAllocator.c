@@ -43,13 +43,13 @@ void BuddyAllocatorInit(BuddyAllocator* BuddyAlloc, int minSize, int numLevels, 
     BuddyAlloc -> mem = mem;
 
 
-    int numBits = (1 << numLevels) - 1; //number of bits needed to represent a  binary tree with numLevels
+    int numBits = (1 << numLevels) - 1;
     BitMapInit(&BuddyAlloc->bitmap, numBits, buf);
 
     for (int i = 0; i < numBits; i++)
         BitMapSetBit(&BuddyAlloc->bitmap, i, 1);
 
-    printf(" buddy  inizialization ok \n");
+    printf("Inizializzazione BuddyAllocator riuscita\n");
 }
 
 int BuddyAllocatorFreeBlockAtLevel(BuddyAllocator * BuddyAlloc, int level) {
@@ -79,7 +79,7 @@ int BuddyAllocatorFindMinLevel(BuddyAllocator * BuddyAlloc, int size) {
 
 int BuddyAllocatorFindFreeBlock(BuddyAllocator * BuddyAlloc, int level) {
     if (level < 0) {
-        printf("Buddy not found");
+        printf("Buddy non trovato");
         return -1;
     }
     assert(level <= BuddyAlloc->numLevels);
@@ -87,7 +87,7 @@ int BuddyAllocatorFindFreeBlock(BuddyAllocator * BuddyAlloc, int level) {
     int buddyIndex = BuddyAllocatorFreeBlockAtLevel(BuddyAlloc, level);
 
     if (buddyIndex != -1) {
-        printf("buddy find at level %d: \n", level);
+        printf("Buddy trovato all'indirizzo %d: \n", level);
         BitMapSetBit(&BuddyAlloc -> bitmap, buddyIndex, 0);
         return buddyIndex;
     }
@@ -114,7 +114,7 @@ int * BuddyAllocatorGetAddress(BuddyAllocator * BuddyAlloc, int index, int level
 void * BuddyAllocatorAlloc(BuddyAllocator * BuddyAlloc, int size) {
     int level = BuddyAllocatorFindMinLevel(BuddyAlloc, size+sizeof(int));
     if(level == -1){
-        perror("error buddyAllocatorAlloc: no memory avalaible");
+        perror("Errore BuddyAllocatorAlloc: memoria non disponibile");
     return NULL;
     }
 
@@ -122,7 +122,7 @@ void * BuddyAllocatorAlloc(BuddyAllocator * BuddyAlloc, int size) {
 
 
     if (blockIndex == -1) {
-        perror("error buddyAllocatorAlloc: no memory avalaible");
+        perror("Errore BuddyAllocatorAlloc: memoria non disponibile");
         return NULL;
     }
 
@@ -140,7 +140,7 @@ void * BuddyAllocatorAlloc(BuddyAllocator * BuddyAlloc, int size) {
 
 void BuddyAllocatorFree(BuddyAllocator * BuddyAlloc, void *ptr) {
     if (ptr == NULL) {
-        printf("Try to free ptr NULL \n");
+        printf("Errore BuddyAllocatorFree: ptr null \n");
         return;
     }
 
@@ -148,7 +148,7 @@ void BuddyAllocatorFree(BuddyAllocator * BuddyAlloc, void *ptr) {
     int blockIndex = *(addr-1);
 
     if (blockIndex < 0 || blockIndex >= (1 << BuddyAlloc->numLevels) - 1) {
-        perror("Try to free invalid block index");
+        perror("Errore BuddyAllocatorFree: blocco  non valido");
         return;
     }
 
@@ -165,9 +165,11 @@ void BuddyAllocatorFree(BuddyAllocator * BuddyAlloc, void *ptr) {
         if (buddyIndex == -1 || BitMapGetBit(&BuddyAlloc->bitmap, buddyIndex) == 0) {
             break;
         }
+
         if (blockIndex < buddyIndex) {
             parentIndex = getParent(blockIndex);
         }
+
         else {
             parentIndex = getParent(buddyIndex);
         }
@@ -178,5 +180,5 @@ void BuddyAllocatorFree(BuddyAllocator * BuddyAlloc, void *ptr) {
 
         level++;
     }
-    printf("buddy deallocation ok \n");
+    printf("Deallocazione BuddyAllocator riuscita \n");
 }
